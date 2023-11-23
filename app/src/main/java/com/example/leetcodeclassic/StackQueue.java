@@ -2,6 +2,7 @@ package com.example.leetcodeclassic;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -60,13 +61,11 @@ public class StackQueue {
         Queue<Integer> queue1;
         Queue<Integer> queue2;
 
-        /** Initialize your data structure here. */
         public MyStack() {
             queue1 = new LinkedList();  //入队列
             queue2 = new LinkedList();  //出队列
         }
 
-        /** Push element x onto stack. */
         public void push(int x) {
             queue2.offer(x);
             while(!queue1.isEmpty()) { //将queue1中的元素移入queue2中，实现现有元素的倒序
@@ -78,27 +77,25 @@ public class StackQueue {
             queue2 = temp;
         }
 
-        /** Removes the element on top of the stack and returns that element. */
         public int pop() {
             return queue1.poll();
         }
 
-        /** Get the top element. */
         public int top() {
             return queue1.peek();
         }
 
-        /** Returns whether the stack is empty. */
         public boolean empty() {
             return queue1.isEmpty();
         }
     }
 
 //            ###### [有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
+
+    //思路：1.在hashmap中存入左右括号对应分别作为键值对
+    //遍历字符，如果为左括号，就在栈中存入右括号，看后面的字符是否有该右括号来消掉
+    //3.用stack来存，如果存入的符号是左括号，没有问题可以直接存，如果存入了右括号，则栈顶一个符号必须为对应的左括号
     public static boolean isValid(String s) {
-        //思路：1.在hashmap中存入左右括号对应分别作为键值对
-        //遍历字符，如果为左括号，就在栈中存入右括号，看后面的字符是否有该右括号来消掉
-        //3.用stack来存，先存就后取，后存就要先取
         Stack<Character> stack = new Stack();
         HashMap<Character,Character> map = new HashMap();
         map.put('(', ')');
@@ -106,9 +103,9 @@ public class StackQueue {
         map.put('{', '}');
         for(Character ch : s.toCharArray()) {
             if(map.containsKey(ch)) { //当前字符为左括号
-                stack.push(map.get(ch));
+                stack.push(ch);
             } else {  //当前字符为右括号，那栈中最顶部必然要与之相同才行
-                if(stack.isEmpty() || stack.pop() != ch) {
+                if(stack.isEmpty() || map.get(stack.pop()) != ch) {
                     return false;
                 }
             }

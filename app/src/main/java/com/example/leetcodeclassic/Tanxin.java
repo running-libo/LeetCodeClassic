@@ -34,8 +34,6 @@ public class Tanxin {
         return profit;
     }
 
-//            ###### [跳跃游戏](https://leetcode.cn/problems/jump-game/)
-
 
     public static void main(java.lang.String[] args) {
 

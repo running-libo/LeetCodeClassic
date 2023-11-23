@@ -129,17 +129,19 @@ public class Tree {
      * @return
      */
     public List<List<Integer>> levelOrder(TreeNode root) {
-        List<List<Integer>> result = new ArrayList<>();
-        Queue<TreeNode> queue = new ArrayDeque();
+        List<List<Integer>> res = new ArrayList<>();
+        Queue<TreeNode> queue = new ArrayDeque<>();
         if (root != null) {
             queue.add(root);
         }
         //队列添加过元素，就将当前队列里的数添加到当前层级集合，并且将每个元素的左右子节点加入到下一层级的队列中
         while(!queue.isEmpty()) {
+            //如果当前队列不为空，将当前队列的当前层弹出队列，存储数组中
             int size = queue.size();
             List<Integer> curLevel = new ArrayList<>();
             //遍历size，确定当前层需要处理几个数
             for (int i=0;i<size;i++) {
+                //当前层级可以继续弹出
                 TreeNode node = queue.poll();
                 curLevel.add(node.val);
                 if (node.left != null) {
@@ -150,9 +152,9 @@ public class Tree {
                 }
             }
             //当前层处理完成
-            result.add(curLevel);
+            res.add(curLevel);
         }
-        return result;
+        return res;
     }
 
     public static void main(java.lang.String[] args) {

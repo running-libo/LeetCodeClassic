@@ -25,6 +25,24 @@ public class Maths {
 
 //            ###### [x 的平方根](https://leetcode.cn/problems/sqrtx/)
 
+    /**
+     * 思路：二分查找的下界为 000，上界可以粗略地设定为 xxx。在二分查找的每一步中，
+     * 我们只需要比较中间元素 mid\textit{mid}mid 的平方与 xxx 的大小关系，并通过比较的结果调整上下界的范围。
+     */
+    public int mySqrt(int x) {
+        int left = 0, right = x; //左右两个返回
+        int ans = -1; //最大上界的数
+        while(left <= right) {
+            int middle = left + (right-left)/2;  //中位数
+            if ((long)middle*middle <= x) {
+                ans = middle;
+                left = middle+1;
+            } else {
+                right = middle-1;
+            }
+        }
+        return ans;
+    }
 
 //            ###### [约瑟夫环](https://leetcode.cn/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/) ★
     /**

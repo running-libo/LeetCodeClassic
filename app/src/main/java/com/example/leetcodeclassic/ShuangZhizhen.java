@@ -110,7 +110,34 @@ public class ShuangZhizhen {
     }
 
 //            ###### [颜色分类](https://leetcode.cn/problems/sort-colors/)
-
+    /**
+     * 单指针法:
+     * 思路：遍历第一次，先把0的往前移动交换，保证0的都在前面排着
+     * 遍历第二次，再把匹配的1的往0之后的位置移动交换，保证1都在0的之后排着
+     *  排序法：任何排序法都可以
+     * @param nums
+     */
+    public void sortColors(int[] nums) {
+        int n = nums.length;
+        int p = 0;
+        for (int i=0;i<n;i++) {
+            if (nums[i] == 0) {
+                swap(nums, i, p);
+                p++;
+            }
+        }
+        for (int i=p;i<n;i++) {
+            if (nums[i] == 1) {
+                swap(nums, i, p);
+                p++;
+            }
+        }
+    }
+    public void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
 
 //            ###### [无重复字符的最长子串](https://leetcode.cn/problems/longest-substring-without-repeating-characters/)
 

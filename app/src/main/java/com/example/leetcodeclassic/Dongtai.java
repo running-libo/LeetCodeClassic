@@ -67,6 +67,12 @@ public class Dongtai {
         return dp[length-1];  //这里需要得到前n间房的最大值，所以是返回dp[length-1]
     }
 
+    //            ###### [跳跃游戏](https://leetcode.cn/problems/jump-game/)
+    public boolean canJump(int[] nums) {
+        return true;
+    }
+
+
     public static void main(String[] args) {
 
     }
