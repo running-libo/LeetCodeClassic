@@ -34,6 +34,28 @@ public class Tanxin {
         return profit;
     }
 
+    //            ###### [跳跃游戏](https://leetcode.cn/problems/jump-game/)
+
+    /**
+     * 思路：贪心算法
+     * 只要存在一个位置x，它本身可以到达，并且它跳跃的最大长度为 x+nums[x]，这个值大于等于y，即 x+nums[x]≥y，那么位置 y 也可以到达。
+     * 这样以来，我们依次遍历数组中的每一个位置，并实时维护 最远可以到达的位置，如果 最远可以到达的位置 大于等于数组中的最后一个位置，就return true
+     */
+    public boolean canJump(int[] nums) {
+        int n= nums.length;
+        int rightmost = 0; //定义当次跳跃范围能走的最远位置
+        for (int i=0;i<n;i++) {
+            if (i<=rightmost) {
+                //在当次遍历的最远范围内查找，看i位置能走的最远位置i+nums[i]能否刷新rightmost
+                rightmost = Math.max(rightmost, i+nums[i]);
+                if (rightmost >= n-1) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     public static void main(java.lang.String[] args) {
 

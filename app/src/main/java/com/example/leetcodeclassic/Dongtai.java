@@ -1,5 +1,7 @@
 package com.example.leetcodeclassic;
 
+import java.util.Arrays;
+
 public class Dongtai {
 
 //            ###### [爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/) ★
@@ -40,6 +42,26 @@ public class Dongtai {
 
 //            ###### [零钱兑换](https://leetcode.cn/problems/coin-change/)
 
+    /**
+     * 示例： 1 2 3 面值，   要凑齐5元
+     * 凑钱数的最小硬币数 = Min(1个1元硬币 + 凑齐4元所需硬币数, 1个2元硬币 + 凑齐3元所需硬币数, 1个3元硬币 + 凑齐2元所需硬币数)
+     * 思路：dp[i]表示对应价格i所需最小硬币数，coins表示硬币面值
+     * 则 dp[i] = min(1+dp[p-coins[j]])
+     */
+    public int coinChange(int[] coins, int amount) {
+        int max = amount + 1;
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, max);
+        dp[0] = 0;
+        for (int i = 1; i <= amount; i++) {
+            for (int j = 0; j < coins.length; j++) {
+                if (coins[j] <= i) {
+                    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+                }
+            }
+        }
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
 
 //            ###### [打家劫舍](https://leetcode.cn/problems/house-robber/)
     /**
@@ -65,11 +87,6 @@ public class Dongtai {
             dp[i] = Math.max(dp[i-1], dp[i-2]+nums[i]);
         }
         return dp[length-1];  //这里需要得到前n间房的最大值，所以是返回dp[length-1]
-    }
-
-    //            ###### [跳跃游戏](https://leetcode.cn/problems/jump-game/)
-    public boolean canJump(int[] nums) {
-        return true;
     }
 
 

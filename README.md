@@ -80,7 +80,7 @@ LeetCode面试最高频考算法题
 
 
 - ####回溯/DFS/BFS
-###### [ 子集](https://leetcode.cn/problems/subsets/)
+###### [子集](https://leetcode.cn/problems/subsets/)
 ###### [全排列](https://leetcode.cn/problems/permutations/)
 ###### [组合总和](https://leetcode.cn/problems/combination-sum/)
 ###### [括号生成](https://leetcode.cn/problems/generate-parentheses/)

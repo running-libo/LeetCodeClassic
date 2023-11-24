@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Lists {
 
-    public class ListNode {
+    public static class ListNode {
         int val;
         ListNode next;
         ListNode(int x) { val = x; }
@@ -170,6 +170,28 @@ public class Lists {
 
 //            ######[删除链表的倒数第 N 个结点](https://leetcode.cn/problems/remove-nth-node-from-end-of-list/)
 
+    /**
+     * 思路：双指针法
+     * 1.创建虚拟节点dummy，指向head;left节点指向dummy，用来占删除位置的前一个位置
+     * 2.right节点指向head，将right节点移动n个位置，然后left和right继续同时往后移，直到right到达链表末尾
+     * 3.将left的next指向next.next
+     */
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode left = dummy;  //left需要占删除位置的前一个位置
+        ListNode right = head;
+        for (int i=0;i<n;i++) { //拉开lfet 和 right节点 n个位置 ,参考链表的倒数第k个节点题
+            right = right.next;
+        }
+        while(right != null) {  //让right节点走到链表末尾，left到达倒数第N个节点前一个节点
+            right = right.next;
+            left = left.next;
+        }
+        left.next = left.next.next;
+        return dummy.next;
+    }
+
 
 //            ###### [相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
 //创建两个指针 pApA 和 pBpB，分别初始化为链表 A 和 B 的头结点。然后让它们向后逐结点遍历。
@@ -200,11 +222,102 @@ public class Lists {
 
 //            ######[两数相加](https://leetcode.cn/problems/add-two-numbers/)
 
+    /**
+     * 思路：模拟两个数字进行相加
+     * 我们同时遍历两个链表，逐位计算它们的和，并与当前位置的进位值相加。
+     * 具体而言，如果当前两个链表处相应位置的数字为 n1,n2，进位值为 carry，则它们的和为 n1+n2+carry；
+     * 其中，,答案链表处相应位置的数字为 (n1+n2+carry) % 10，而新的进位值为 (n1+n2+carry)/10
+     * 如果两个链表的长度不同，则可以认为长度短的链表的后面有若干个0 。
+     * 此外，如果链表遍历结束后，有 carry>0，还需要在答案链表的后面附加一个节点，节点的值为 carry。
+     */
+    public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode head = null, tail = null; //新链表的头、尾声明
+        int carry = 0; //进位的值
+        while(l1 != null || l2 != null) {
+            //当两个链表不是都完了，程序就需继续按位相加
+            int n1 = l1!=null ? l1.val : 0;
+            int n2 = l2!=null ? l2.val : 0;
+            int cur = n1+n2+carry; //当前位置相加
+
+            if (head == null) {
+                //第一个节点，创建头尾节点指向新节点
+                tail = head = new ListNode(cur % 10);
+            } else {
+                //非第一个节点，让尾结点指向新的节点
+                tail.next = new ListNode(cur % 10);
+                tail = tail.next;
+            }
+
+            carry = cur / 10; //下一个的进位
+
+            //l1 l2都往后移
+            if (l1 != null) {
+                l1 = l1.next;
+            }
+            if (l2 != null) {
+                l2 = l2.next;
+            }
+
+            if (carry > 0) {
+                tail.next = new ListNode(carry);
+            }
+        }
+        return head;
+    }
 
 //            ######[两两交换链表中的节点](https://leetcode.cn/problems/swap-nodes-in-pairs/)
 
+    /**
+     * 操作示例： 1->2->3->4->5
+     * 思路：创建一个虚拟节点指向head，cur指向虚拟节点。用temp保存1和3的位置供后面连接。让cur->2, 2->1, 1->3
+     * 然后cur往后移动两位，即cur需要在反转的两个节点的前一个节点位置
+     */
+    public ListNode swapPairs(ListNode head) {
+        ListNode dummyHead = new ListNode(0); //虚拟节点
+        dummyHead.next = head; //虚拟节点指向head
+        ListNode cur = dummyHead;
+        ListNode temp1, temp2;
+        while (cur.next != null && cur.next.next != null) {
+            //循环结束条件：偶数个，cur.next为null结束;奇数个，cur.next.next为null结束
+            temp1 = cur.next; //temp1占 1的位置
+            temp2 = cur.next.next.next; //temp2占 3的位置
+            cur.next = cur.next.next; //cur指向 2的位置
+            cur.next.next = temp1; //2指向1的位置
+            temp1.next = temp2; //1指向 3的位置
+
+            cur = cur.next.next; //cur往后移动两位
+        }
+        return dummyHead.next;
+    }
 
 //            ######[旋转链表](https://leetcode.cn/problems/rotate-list/)
+    /**
+     * 思路：记给定链表的长度为 n，注意到当向右移动的次数 k≥n 时，我们仅需要向右移动 k mod n 次即可。因为每 n 次移动都会让链表变为原状。
+     * 这样我们可以知道，新链表的最后一个节点为原链表的第 (n−1) - (k mod n) 个节点（从 0 开始计数）。
+     * @param head
+     */
+    public ListNode rotateRight(ListNode head, int k) {
+        if (k == 0 || head == null || head.next == null) {
+            return head;
+        }
+        int n = 1;
+        ListNode iter = head;
+        while (iter.next != null) {
+            iter = iter.next;
+            n++;
+        }
+        int add = n - k % n;
+        if (add == n) {
+            return head;
+        }
+        iter.next = head;
+        while (add-- > 0) {
+            iter = iter.next;
+        }
+        ListNode ret = iter.next;
+        iter.next = null;
+        return ret;
+    }
 
     public static void main(java.lang.String[] args) {
 
