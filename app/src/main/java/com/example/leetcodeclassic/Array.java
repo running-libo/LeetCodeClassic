@@ -46,6 +46,49 @@ public class Array {
         return newDigits;
     }
 
+//    ###### [二分查找](https://leetcode.cn/problems/binary-search/)
+    /**
+     * 思路：用while循环做条件，对数组范围内取中间元素判断
+     * 如果相等则找到，如果target小，往左边找，如果target大，往右边找
+     * 并且start或end范围重设，middle重取值继续循环
+     */
+    public int search(int[] nums, int target) {
+        int start = 0;
+        int end = nums.length-1;
+
+        while(start <= end) {
+            int middle = (start+end)/2;
+            if (nums[middle] == target) {
+                return middle;
+            } else if (nums[middle] > target){
+                end = middle-1;
+            } else {
+                start = middle+1;
+            }
+        }
+
+        return -1;
+    }
+
+//    ###### [删除有序数组中的重复项](https://leetcode.cn/problems/remove-duplicates-from-sorted-array/)
+    public int removeDuplicates(int[] nums) {
+        //思路：双指针：快指针向前扫，如果nums[fast]!=nums[fast-1]，说明值不同，那么就将值存入nums[slow++]
+        //最后返回slow
+        if (nums.length == 0) {
+            return 0;
+        }
+
+        int fast = 1, slow = 1; //第一个数已确定，从第二个数开始扫描
+        while(fast < nums.length) {
+            if (nums[fast] != nums[fast-1]) {
+                //有新的数值
+                nums[slow++] = nums[fast];
+            }
+            fast++;
+        }
+        return slow;
+    }
+
 //    ###### [最长连续递增序列](https://leetcode-cn.com/problems/longest-continuous-increasing-subsequence/)
     public int findLengthOfLCIS(int[] nums) {
         if(nums.length <= 1) {  //长度为0，则为0，长度为1，则为1
@@ -98,26 +141,14 @@ public class Array {
     }
 
 //    ###### [数组中的第K个最大元素](https://leetcode.cn/problems/kth-largest-element-in-an-array/)
-    class Solution {
-        int quickselect(int[] nums, int l, int r, int k) {
-            if (l == r) return nums[k];
-            int x = nums[l], i = l - 1, j = r + 1;
-            while (i < j) {
-                do i++; while (nums[i] < x);
-                do j--; while (nums[j] > x);
-                if (i < j){
-                    int tmp = nums[i];
-                    nums[i] = nums[j];
-                    nums[j] = tmp;
-                }
-            }
-            if (k <= j) return quickselect(nums, l, j, k);
-            else return quickselect(nums, j + 1, r, k);
-        }
-        public int findKthLargest(int[] _nums, int k) {
-            int n = _nums.length;
-            return quickselect(_nums, 0, n - 1, n - k);
-        }
+
+    /**
+     * 思路：用自带Arrays.sort进行排序，返回第nums.length-k个数即可
+     * 如不能用Arrays.sort，则自行写冒泡、插入、选择、快拍等排序方式
+     */
+    public int findKthLargest(int[] nums, int k) {
+        Arrays.sort(nums);
+        return nums[nums.length-k];
     }
 
 //            ###### [只出现一次的数字](https://leetcode-cn.com/problems/single-number/)

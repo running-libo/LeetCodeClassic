@@ -24,56 +24,6 @@ public class Strings {
 
     }
 
-//    ###### [最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring/)
-
-        public String longestPalindrome(String s) {
-            int len = s.length();
-            if (len < 2) {
-                return s;
-            }
-
-            int maxLen = 1;
-            int begin = 0;
-            // dp[i][j] 表示 s[i..j] 是否是回文串
-            boolean[][] dp = new boolean[len][len];
-            // 初始化：所有长度为 1 的子串都是回文串
-            for (int i = 0; i < len; i++) {
-                dp[i][i] = true;
-            }
-
-            char[] charArray = s.toCharArray();
-            // 递推开始
-            // 先枚举子串长度
-            for (int L = 2; L <= len; L++) {
-                // 枚举左边界，左边界的上限设置可以宽松一些
-                for (int i = 0; i < len; i++) {
-                    // 由 L 和 i 可以确定右边界，即 j - i + 1 = L 得
-                    int j = L + i - 1;
-                    // 如果右边界越界，就可以退出当前循环
-                    if (j >= len) {
-                        break;
-                    }
-
-                    if (charArray[i] != charArray[j]) {
-                        dp[i][j] = false;
-                    } else {
-                        if (j - i < 3) {
-                            dp[i][j] = true;
-                        } else {
-                            dp[i][j] = dp[i + 1][j - 1];
-                        }
-                    }
-
-                    // 只要 dp[i][L] == true 成立，就表示子串 s[i..L] 是回文，此时记录回文长度和起始位置
-                    if (dp[i][j] && j - i + 1 > maxLen) {
-                        maxLen = j - i + 1;
-                        begin = i;
-                    }
-                }
-            }
-            return s.substring(begin, begin + maxLen);
-        }
-
 
 //    ###### [无重复字符的最长子串](https://leetcode.cn/problems/longest-substring-without-repeating-characters/)
     class Solution {
@@ -98,6 +48,51 @@ public class Strings {
             }
             return ans;
         }
+    }
+
+    //    ###### [最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring/)
+
+    /**
+     * 思路：暴力解法 (击败 5.00% 的java用户)
+     * 遍历从0位置作为起始到末尾的i下标，到i+1~末尾范围的字符串的判断，这里是一个双重for循环
+     * 用maxleng表示当前的最大回文子串长度，如果这个范围小于maxleng，那就不用判断回文了
+     * 如果是回文，则更新这个返回字符串和maxLeng
+     */
+    public String longestPalindrome(String s) {
+        int leng = s.length();
+        String resultStr = "";
+        int maxLeng = 0; //记录当前的最长子回文串长度
+        for (int i=0;i<leng;i++) {
+            for (int j=i+1;j<=leng;j++) {
+                //如果i-j范围已经小于maxLeng长度了，就不用去判断是否回文了
+                if (j-i < maxLeng) {
+                    continue;
+                }
+                String test = s.substring(i,j);
+                if (isPalindromic(test)) {
+                    //当前i-j范围是回文串
+                    resultStr = test;
+                    maxLeng =test.length();
+                }
+            }
+        }
+        return resultStr;
+    }
+
+    /**
+     * 简单双指针判断一下是否是回文串
+     */
+    public boolean isPalindromic(String s) {
+        int start = 0, end = s.length()-1;
+        while(start<end) {
+            if (s.charAt(start) != s.charAt(end)) {
+                return false;
+            } else {
+                start++;
+                end--;
+            }
+        }
+        return true;
     }
 
     public static void main(java.lang.String[] args) {

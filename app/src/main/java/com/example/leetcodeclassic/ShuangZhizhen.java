@@ -56,6 +56,28 @@ public class ShuangZhizhen {
         return slow;
     }
 
+    //     ###### [在排序数组中查找元素的第一个和最后一个位置](https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/)
+    /**
+     * 思路：设计start指针，从左边往右遍历，找到target就更新start
+     * 设计end指针，从右边往左边遍历，找到target就更新end
+     */
+    public int[] searchRange(int[] nums, int target) {
+        int start = -1, end = -1;
+        for (int i=0;i<nums.length;i++) {
+            if (nums[i] == target) {
+                start = i;
+                break;
+            }
+        }
+        for (int i=nums.length-1;i>=0;i--) {
+            if (nums[i] == target) {
+                end = i;
+                break;
+            }
+        }
+        return new int[]{start, end};
+    }
+
 //            ###### [三数之和](https://leetcode.cn/problems/3sum/)
     /**
      * 思路：
