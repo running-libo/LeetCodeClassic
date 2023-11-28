@@ -96,10 +96,6 @@ public class ShuangZhizhen {
         Arrays.sort(nums);  //排序
         int left = 0, right = 0;
         for (int i=0;i<nums.length;i++) {
-            if (nums[i] > 0) {
-                //当前最小数大于0，则找不到符合条件的组
-                return list;
-            }
             if (i>0 && nums[i] == nums[i-1]) {
                 //对i去重:  如果当前组的a和上一组的a相等，则视为重复组
                 continue;
