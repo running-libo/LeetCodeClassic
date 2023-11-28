@@ -136,26 +136,27 @@ public class ShuangZhizhen {
     /**
      * 单指针法:
      * 思路：遍历第一次，先把0的往前移动交换，保证0的都在前面排着
-     * 遍历第二次，再把匹配的1的往0之后的位置移动交换，保证1都在0的之后排着
+     * 遍历第二次，再把2的往后移动交换，保证2的都在后面排着
      *  排序法：任何排序法都可以
      * @param nums
      */
     public void sortColors(int[] nums) {
-        int n = nums.length;
-        int p = 0;
-        for (int i=0;i<n;i++) {
+        int start = 0;
+        int end = nums.length-1;
+        for (int i=0;i<nums.length;i++) {
             if (nums[i] == 0) {
-                swap(nums, i, p);
-                p++;
+                swap(nums, i, start);
+                start++;
             }
         }
-        for (int i=p;i<n;i++) {
-            if (nums[i] == 1) {
-                swap(nums, i, p);
-                p++;
+        for (int i=end;i>=start;i--) {
+            if (nums[i] == 2) {
+                swap(nums, i, end);
+                end--;
             }
         }
     }
+
     public void swap(int[] nums, int i, int j) {
         int temp = nums[i];
         nums[i] = nums[j];

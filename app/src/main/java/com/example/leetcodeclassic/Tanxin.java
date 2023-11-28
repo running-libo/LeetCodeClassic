@@ -43,7 +43,7 @@ public class Tanxin {
      */
     public boolean canJump(int[] nums) {
         int n= nums.length;
-        int rightmost = 0; //定义当次跳跃范围能走的最远位置
+        int rightmost = nums[0]; //定义当次跳跃范围能走的最远位置
         for (int i=0;i<n;i++) {
             if (i<=rightmost) {
                 //在当次遍历的最远范围内查找，看i位置能走的最远位置i+nums[i]能否刷新rightmost
