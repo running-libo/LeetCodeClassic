@@ -120,6 +120,66 @@ public class Tree {
 
     }
 
+
+//   ##### [对称二叉树](https://leetcode.cn/problems/symmetric-tree/)
+    /**
+     * 能观察到这么一个规律：
+     * root的左子树 的左孩子 == root的右子树 的右孩子
+     * root的左子树 的右孩子 == root的右子树 的左孩子
+     * 终止条件：
+     *
+     * left 和 right 不等，或者 left 和 right 都为空
+     * 递归的比较 left.left 和 right.right，递归比较 left.right 和 right.left
+     *
+     * @param root
+     * @return
+     */
+    public boolean isSymmetric(PractiseMore.TreeNode root) {
+        return dfs(root.left, root.right);
+    }
+
+    /**
+     * 当前需要对比的两个节点，不一定是来自同一个父节点，而是对称的两个节点
+     * @param left
+     * @param right
+     * @return
+     */
+    boolean dfs(PractiseMore.TreeNode left, PractiseMore.TreeNode right) {
+        if (left == null && right == null) { //都为null时对称的
+            return true;
+        }
+        if (left==null || right==null) { //不都为null则不对称
+            return false;
+        }
+        if (left.val != right.val) {
+            return false;
+        }
+
+        //再递归的比较 左节点的左孩子 和 右节点的右孩子
+        //以及比较  左节点的右孩子 和 右节点的左孩子
+        return dfs(left.left, right.right) && dfs(left.right, right.left);
+    }
+
+//    ##### [相同的树](https://leetcode.cn/problems/same-tree/)
+    /**
+     * 需要将q p的左节点同时比较，并且将q p的右节点同时比较
+     * 比较的条件是 同为null相同，不都为null则不同 ，值相同为同
+     * @param p
+     * @param q
+     * @return
+     */
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if (p == null && q == null) {
+            return true;
+        } else if (p == null || q == null) {
+            return false;
+        } else if (p.val != q.val) {
+            return false;
+        } else {
+            return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+        }
+    }
+
 //            ###### [二叉树的层序遍历](https://leetcode.cn/problems/binary-tree-level-order-traversal/)
     /**
      * 思路：用队列存储每一层的数字，然后用变量记录当前层级元素的个数
@@ -155,6 +215,39 @@ public class Tree {
             res.add(curLevel);
         }
         return res;
+    }
+
+//    ###### [二叉树的最近公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/)
+    class Solution2 {
+        TreeNode commonRoot;
+
+        public TreeNode lowestCommonAncestor(TreeNode root, TreeNode t1, TreeNode t2) {
+            dfs(root, t1, t2);
+            return commonRoot;
+        }
+
+        /**
+         * 该root节点是否含有p q子节点，返回boolean
+         * @param root
+         * @param p
+         * @param q
+         */
+        public boolean dfs(TreeNode root, TreeNode p, TreeNode q) {
+            if (root == null) {
+                return false;
+            }
+
+            boolean lson = dfs(root.left, p, q);
+            boolean rson = dfs(root.right, p, q);
+
+            //找公共父节点
+            if ((lson && rson) || (root.val == p.val || root.val == q.val) && (lson || rson)) {
+                //找到了
+                commonRoot = root;
+            }
+
+            return lson || rson || (root.val == p.val || root.val == q.val);
+        }
     }
 
     public static void main(java.lang.String[] args) {

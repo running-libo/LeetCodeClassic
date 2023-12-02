@@ -1,6 +1,8 @@
 package com.example.leetcodeclassic;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class Strings {
@@ -24,6 +26,77 @@ public class Strings {
 
     }
 
+//    ##### [找出字符串中第一个匹配项的下标](https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/)
+    public int strStr(String haystack, String needle) {
+        if (!haystack.contains(needle)) {
+            return -1;
+        } else {
+            for (int i=0;i<=haystack.length()-needle.length();i++) {
+                String subStr = haystack.substring(i, i+needle.length());
+                if (subStr.equals(needle)) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+//    ##### [罗马数字转整数](https://leetcode.cn/problems/roman-to-integer/)
+
+    /**
+     * 通常情况下，罗马数字中小的数字在大的数字的右边。若输入的字符串满足该情况，那么可以将每个字符视作一个单独的值，累加每个字符对应的数值即可。
+     * 若存在小的数字在大的数字的左边的情况，根据规则需要减去小的数字。对于这种情况，我们也可以将每个字符视作一个单独的值，若一个数字右侧的数字比它大，则将该数字的符号取反。
+     * @param s
+     */
+    public int romanToInt(String s) {
+        int res = 0;
+        for (int i=0;i<s.length();i++) {
+            int value = symbolValues.get(s.charAt(i)); //当前罗马字符代表的数字大小
+
+            if (i<s.length()-1 && value < symbolValues.get(s.charAt(i+1))) {
+                //当前的数比下一个符号表示的数小，则需要减掉
+                res -= value;
+            } else {
+                //否则就是相加
+                res += value;
+            }
+        }
+        return res;
+    }
+    Map<Character,Integer> symbolValues = new HashMap<Character, Integer>() {
+        {
+            put('I', 1);
+            put('V', 5);
+            put('X', 10);
+            put('L', 50);
+            put('C', 100);
+            put('D', 500);
+            put('M', 1000);
+        }
+    };
+
+//    ##### [最长公共前缀](https://leetcode.cn/problems/longest-common-prefix/)
+    public static String longestCommonPrefix(String[] strs) {
+        String str = strs[0];
+        StringBuilder sb = new StringBuilder();
+        //取第一个字符串为基准
+        for (int i=0;i<str.length();i++) {
+            Character c = str.charAt(i);
+            //遍历取出第一个字符串的每个字符
+            for (int j=1;j<strs.length;j++) {
+                //遍历后面每个字符串
+                if (i < strs[j].length() && strs[j].charAt(i) == c) {
+                    //如果当前 i 没有超出某个字符串长度并且对应位置字符相同，则取判断下一个字符串
+                    continue;
+                } else {
+                    //如果有长度不够或者字符不同的，则直接返回最长前缀字符串
+                    return sb.toString();
+                }
+            }
+            sb.append(c); //该字符 c 满足条件
+        }
+        return sb.toString();
+    }
 
 //    ###### [无重复字符的最长子串](https://leetcode.cn/problems/longest-substring-without-repeating-characters/)
     class Solution {
@@ -72,11 +145,11 @@ public class Strings {
                 if (j-i < maxLeng) {
                     continue;
                 }
-                String test = s.substring(i,j);
-                if (isPalindromic(test)) {
-                    //当前i-j范围是回文串
-                    resultStr = test;
-                    maxLeng =test.length();
+                String curStr = s.substring(i,j);
+                if (isPalindromic(curStr) && curStr.length() > maxLeng) {
+                    //是回文子串，判断更新最长回文子串
+                    resultStr = curStr;
+                    maxLeng = curStr.length();
                 }
             }
         }

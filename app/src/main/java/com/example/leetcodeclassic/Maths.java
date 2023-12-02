@@ -44,6 +44,56 @@ public class Maths {
         return ans;
     }
 
+//       ###### [整数反转](https://leetcode.cn/problems/reverse-integer/)
+
+    /**
+     * 需判断整数溢出
+     * @param x
+     * @return
+     */
+    public int reverse(int x) {
+        int newNum = 0; //每次的新数
+        int restNum = x; //每次剩下的数
+        int lastNew = 0; //上次的新数
+        while(restNum != 0) {
+            lastNew = newNum;
+            newNum = newNum * 10 + restNum % 10;
+            restNum /= 10;
+            //判断整数溢出，如果变换的新数的前几位数与变换前不一样，则溢出了，例如 3 变成了 3x，如果  3!= 3x/10 ，则发生了溢出
+            if (lastNew != newNum /10) {
+                return 0;
+            }
+        }
+        return newNum;
+    }
+
+//    ##### [二进制求和](https://leetcode.cn/problems/add-binary/)
+
+    /**
+     * 思路，将两个字符串的各个字符按位相加，需要逢2进1，设置ans为进位
+     * 需要从末尾对齐相加，以十进制的计算法来做二进制加法
+     *    1010
+     *  + 1011
+     *   10101
+     */
+    public String addBinary(String a, String b) {
+        int n = Math.max(a.length(), b.length()); //最大一个的长度
+        int carry = 0; //计算的进位
+        StringBuilder sb = new StringBuilder();  //存储结果
+        for (int i=0;i<n;i++) {
+            int aNum = i<a.length() ? (a.charAt(a.length()-1-i) - '0') : 0; //从尾部开始找到当前a需要相加的值
+            int bNum = i<b.length() ? (b.charAt(b.length()-1-i) - '0') : 0; //从尾部开始找到当前b需要相加的值
+            int sum = aNum + bNum + carry;
+            carry = sum / 2;
+            sb.append(sum % 2);
+        }
+
+        if (carry != 0) {
+            sb.append(carry);
+        }
+        return sb.reverse().toString();
+    }
+
 //            ###### [约瑟夫环](https://leetcode.cn/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/) ★
     /**
      * 思路：用一个容器arrayList数据结构装数据，每m个位置后，将arrayList的该下标数删除
