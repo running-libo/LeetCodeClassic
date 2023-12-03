@@ -149,7 +149,7 @@ public class Strings {
                     continue;
                 }
                 String curStr = s.substring(i,j);
-                if (isPalindromic(curStr) && curStr.length() > maxLeng) {
+                if (isPalindromic(curStr)) {
                     //是回文子串，判断更新最长回文子串
                     resultStr = curStr;
                     maxLeng = curStr.length();

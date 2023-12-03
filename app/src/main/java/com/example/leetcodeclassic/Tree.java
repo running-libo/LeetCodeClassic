@@ -148,11 +148,9 @@ public class Tree {
     boolean dfs(TreeNode left, TreeNode right) {
         if (left == null && right == null) { //都为null时对称的
             return true;
-        }
-        if (left==null || right==null) { //不都为null则不对称
+        } else if (left == null || right == null) { //不都为null则不对称
             return false;
-        }
-        if (left.val != right.val) {
+        } else if (left.val != right.val) {
             return false;
         }
 
@@ -177,9 +175,8 @@ public class Tree {
             return false;
         } else if (p.val != q.val) {
             return false;
-        } else {
-            return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
         }
+        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
     }
 
 //            ###### [二叉树的层序遍历](https://leetcode.cn/problems/binary-tree-level-order-traversal/)
@@ -220,7 +217,7 @@ public class Tree {
     }
 
 //    ###### [二叉树的最近公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/)
-
+    //参考：https://www.bilibili.com/video/BV1W44y1Z7AR/
     /**
      * 思路： 依靠lowestCommonAncestor方法递归去当前的root节点找 p 节点或者 q节点
      * 如果找到 q 或者 p，就用这个方法返回 q 或 p 节点
@@ -231,10 +228,7 @@ public class Tree {
      * @param q
      */
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-       if (root == null) {
-           return null;
-       }
-       if (root == p || root == q) {
+       if (root == null || root == p || root == q) {
            return root;
        }
        TreeNode left = lowestCommonAncestor(root.left, p, q); //从root的左子树找 q p
