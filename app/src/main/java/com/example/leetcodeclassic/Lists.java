@@ -294,29 +294,31 @@ public class Lists {
     /**
      * 思路：记给定链表的长度为 n，注意到当向右移动的次数 k≥n 时，我们仅需要向右移动 k mod n 次即可。因为每 n 次移动都会让链表变为原状。
      * 这样我们可以知道，新链表的最后一个节点为原链表的第 (n−1) - (k mod n) 个节点（从 0 开始计数）。
+     *
+     * 一条蛇咬着蛇尾，然后中间砍一刀变成了一条新的蛇
      * @param head
      */
     public ListNode rotateRight(ListNode head, int k) {
-        if (k == 0 || head == null || head.next == null) {
+        //不合法的直接返回head不做操作
+        if (head == null || head.next == null) {
             return head;
         }
-        int n = 1;
-        ListNode iter = head;
-        while (iter.next != null) {
-            iter = iter.next;
-            n++;
+
+        ListNode cur = head;
+        int leng = 0;
+        while(cur.next != null) {
+            cur = cur.next;
+            leng++;
+        } //遍历到尾节点
+        leng += 1;   //用的是 cur.next != null ，所以这里需要多 +1
+        cur.next = head; //尾结点连上头节点
+        int step = leng - k%leng;  //需要平移的距离
+        for(int i=0;i<step;i++) {
+            cur = cur.next;
         }
-        int add = n - k % n;
-        if (add == n) {
-            return head;
-        }
-        iter.next = head;
-        while (add-- > 0) {
-            iter = iter.next;
-        }
-        ListNode ret = iter.next;
-        iter.next = null;
-        return ret;
+        ListNode newHead = cur.next;  //在这个位置将节点砍断
+        cur.next = null;
+        return newHead;
     }
 
     public static void main(java.lang.String[] args) {

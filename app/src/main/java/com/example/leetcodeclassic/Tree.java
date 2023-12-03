@@ -134,17 +134,18 @@ public class Tree {
      * @param root
      * @return
      */
-    public boolean isSymmetric(PractiseMore.TreeNode root) {
+    public boolean isSymmetric(TreeNode root) {
         return dfs(root.left, root.right);
     }
 
     /**
+     * 比较两个节点以及子节点是否对称
      * 当前需要对比的两个节点，不一定是来自同一个父节点，而是对称的两个节点
      * @param left
      * @param right
      * @return
      */
-    boolean dfs(PractiseMore.TreeNode left, PractiseMore.TreeNode right) {
+    boolean dfs(TreeNode left, TreeNode right) {
         if (left == null && right == null) { //都为null时对称的
             return true;
         }
@@ -162,6 +163,7 @@ public class Tree {
 
 //    ##### [相同的树](https://leetcode.cn/problems/same-tree/)
     /**
+     * 比较两个节点以及子节点是否相同，与节点对称做法相同，区别在对称需要 left对比right， 相同需要对比left与left right与right
      * 需要将q p的左节点同时比较，并且将q p的右节点同时比较
      * 比较的条件是 同为null相同，不都为null则不同 ，值相同为同
      * @param p
@@ -218,36 +220,29 @@ public class Tree {
     }
 
 //    ###### [二叉树的最近公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/)
-    class Solution2 {
-        TreeNode commonRoot;
 
-        public TreeNode lowestCommonAncestor(TreeNode root, TreeNode t1, TreeNode t2) {
-            dfs(root, t1, t2);
-            return commonRoot;
-        }
-
-        /**
-         * 该root节点是否含有p q子节点，返回boolean
-         * @param root
-         * @param p
-         * @param q
-         */
-        public boolean dfs(TreeNode root, TreeNode p, TreeNode q) {
-            if (root == null) {
-                return false;
-            }
-
-            boolean lson = dfs(root.left, p, q);
-            boolean rson = dfs(root.right, p, q);
-
-            //找公共父节点
-            if ((lson && rson) || (root.val == p.val || root.val == q.val) && (lson || rson)) {
-                //找到了
-                commonRoot = root;
-            }
-
-            return lson || rson || (root.val == p.val || root.val == q.val);
-        }
+    /**
+     * 思路： 依靠lowestCommonAncestor方法递归去当前的root节点找 p 节点或者 q节点
+     * 如果找到 q 或者 p，就用这个方法返回 q 或 p 节点
+     * 如果p 和 q都在当前root里找到，则该root就是 q 和 p的最近公共祖先
+     * 否则，left 和 right 找的q和p，哪个不为空，哪个就是祖先节点
+     * @param root
+     * @param p
+     * @param q
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+       if (root == null) {
+           return null;
+       }
+       if (root == p || root == q) {
+           return root;
+       }
+       TreeNode left = lowestCommonAncestor(root.left, p, q); //从root的左子树找 q p
+       TreeNode right = lowestCommonAncestor(root.right, p, q); //从root的右子树找 q p
+       if (left != null && right != null) {
+           return root;
+       }
+       return left == null ? right : left;
     }
 
     public static void main(java.lang.String[] args) {

@@ -89,6 +89,25 @@ public class Dongtai {
         return dp[length-1];  //这里需要得到前n间房的最大值，所以是返回dp[length-1]
     }
 
+    //    ##### [最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/)
+    public int lengthOfLIS(int[] nums) {
+        int[] dp = new int[nums.length]; //这个dp[i] 表示以 nums[i] 为结尾的最长递增子序列长度
+        //遍历i时，需要从头到尾遍历0~i，找出最大的子序列长度
+        dp[0] = 1;
+        int maxLeng = dp[0];
+        for (int i=1;i<nums.length;i++) {
+            //这里需要初始dp[i]=1，最小长度有一个
+            dp[i] = 1;
+            for (int j=0;j<i;j++) {
+                if (nums[i] > nums[j]) {
+                    //则dp[i]会比 dp[j] 大1个序列长度
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+            maxLeng = Math.max(maxLeng, dp[i]); //从每个dp[i]中找最大的一个
+        }
+        return maxLeng;
+    }
 
     public static void main(String[] args) {
 

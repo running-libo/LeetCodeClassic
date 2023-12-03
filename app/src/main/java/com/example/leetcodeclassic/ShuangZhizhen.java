@@ -186,6 +186,31 @@ public class ShuangZhizhen {
         return maxLeng;
     }
 
+    //     ##### [长度最小的子数组](https://leetcode.cn/problems/minimum-size-subarray-sum/)
+
+    /**
+     * 滑动窗口，在start 到 end 的滑动窗口中找正好和为target的范围
+     * 当和 大于 target， start位置往后滑，当和小于 target， end位置往后滑
+     * @param target
+     * @param nums
+     */
+    public int minSubArrayLen(int target, int[] nums) {
+        int minLeng = Integer.MAX_VALUE;
+        int start=0, end=0;
+        int sum = 0;
+        while(end < nums.length) {
+            sum += nums[end];
+            //不管是找到了target，还是超出了target，起手都是start往后移； 否则end往后移，添加end的一个数
+            while(sum >= target) {
+                minLeng = Math.min(minLeng, end-start+1);
+                sum -= nums[start]; //将start位置数剔除，start往后滑动
+                start++;
+            }
+            end++;  //和小于 target， end位置往后滑
+        }
+        return minLeng == Integer.MAX_VALUE ? 0 : minLeng;
+    }
+
     public static void main(java.lang.String[] args) {
 
     }

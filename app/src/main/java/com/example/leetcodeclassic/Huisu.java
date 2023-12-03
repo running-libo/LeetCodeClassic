@@ -2,7 +2,9 @@ package com.example.leetcodeclassic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Huisu {
 
@@ -108,6 +110,50 @@ public class Huisu {
                 path.add(nums[i]);
                 dfs(nums);
                 path.remove(path.size()-1);
+            }
+        }
+    }
+
+//    ##### [括号生成](https://leetcode.cn/problems/generate-parentheses/)
+
+    /**
+     * 找能生成n对有效括号的所有组合
+     * 思路：
+     */
+    class Solution3 {
+        List<String> result = new ArrayList<>();
+        public List<String> generateParenthesis(int n) {
+            dfs(new StringBuilder(), 0, 0, n);
+            return result;
+        }
+
+        /**
+         * 思路：如果左括号数量还 < n，我们可以放一个左括号。如果右括号数量小于左括号的数量，我们可以放一个右括号。
+         * 如果字符串长度等于 2*n，则组合添加完成
+         * @param cur 当前字符串
+         * @param left 当前左括号数
+         * @param right 当前右括号数
+         */
+        public void dfs(StringBuilder cur, int left, int right, int n) {
+            //如果字符串长度等于 2*n，则组合添加完成
+            if (cur.length() == 2*n) {
+                result.add(cur.toString());
+                return;
+            }
+
+            //如果左括号数量还 < n
+            if (left < n) {
+                //我们可以放一个左括号
+                cur.append('(');
+                dfs(cur, left+1, right, n);
+                cur.deleteCharAt(cur.length()-1);
+            }
+
+            //如果右括号数量小于左括号的数量，我们可以放一个右括号
+            if (right < left) {
+                cur.append(')');
+                dfs(cur, left, right+1, n);
+                cur.deleteCharAt(cur.length()-1);
             }
         }
     }

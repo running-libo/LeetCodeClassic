@@ -1,7 +1,10 @@
 package com.example.leetcodeclassic;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -57,7 +60,7 @@ public class Strings {
                 //当前的数比下一个符号表示的数小，则需要减掉
                 res -= value;
             } else {
-                //否则就是相加
+                //否则就是相加 ,最后一个字符不用判断正负，肯定是相加的
                 res += value;
             }
         }
@@ -170,6 +173,15 @@ public class Strings {
             }
         }
         return true;
+    }
+
+//    ##### [反转字符串中的单词](https://leetcode.cn/problems/reverse-words-in-a-string/)
+
+    public String reverseWords(String s) {
+        s = s.trim();
+        List<String> list = Arrays.asList(s.split("\\s+"));  // 正则匹配连续的空白字符作为分隔符分割
+        Collections.reverse(list); //反转集合各个元素
+        return String.join(" ", list); //String.join在集合每个元素之间添加分割符号
     }
 
     public static void main(java.lang.String[] args) {
