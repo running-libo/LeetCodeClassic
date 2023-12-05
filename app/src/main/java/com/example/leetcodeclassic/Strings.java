@@ -143,7 +143,7 @@ public class Strings {
         String resultStr = "";
         int maxLeng = 0; //记录当前的最长子回文串长度
         for (int i=0;i<leng;i++) {
-            for (int j=i+1;j<=leng;j++) {
+            for (int j=i+1;j<=leng;j++) {   //注意：这里需要  j<=leng
                 //如果i-j范围已经小于maxLeng长度了，就不用去判断是否回文了
                 if (j-i < maxLeng) {
                     continue;

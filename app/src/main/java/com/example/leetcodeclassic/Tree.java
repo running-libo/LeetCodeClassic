@@ -40,7 +40,7 @@ public class Tree {
             return 1;
         }
 
-        int mindepth = Integer.MAX_VALUE;
+        int mindepth = Integer.MAX_VALUE;  //注意：这里要最小深度，初始值需要为 Integer.MAX_VALUE
         if(root.left != null) {
             //左子节点不为空，得到左子节点的深度
             mindepth = Math.min(minDepth(root.left), mindepth);

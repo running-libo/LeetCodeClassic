@@ -98,7 +98,7 @@ public class Maths {
     /**
      * 思路：用一个容器arrayList数据结构装数据，每m个位置后，将arrayList的该下标数删除
      */
-    public int lastRemaining(int n, int m) {
+    public int iceBreakingGame(int n, int m) {
         ArrayList<Integer> list = new ArrayList();
         for (int i=0;i<n;i++) {
             list.add(i);
@@ -106,7 +106,7 @@ public class Maths {
         int index = 0;
         while (list.size() > 1) {
             //还没有删除到剩余最后一个数
-            int move = (m-1)%list.size();  //move为需要走的步数
+            int move = (m-1)%list.size();  //move为需要走的步数, 注意：这里需要 m-1
             if (index+move < list.size()) {
                 //当前次移动的位置没有超出一圈
                 index += move;

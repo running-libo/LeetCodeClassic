@@ -4,6 +4,26 @@ import java.util.Arrays;
 
 public class Dongtai {
 
+//    ###### [斐波那契数](https://leetcode-cn.com/problems/fibonacci-number/)
+    public int fib(int N) {
+        if(N <= 1) {
+            return N;
+        }
+
+        int p = 0;    //为N-2个数
+        int q = 1;    //为N-1个数
+        int result = 0; //result为前两数之和为第N个数
+        for(int i=2;i<=N;i++) {
+            //遍历累计和范围为2-N
+            result = p + q;
+            //然后p和q的位置往后移动一个
+            p = q;
+            q = result;
+        }
+
+        return result;
+    }
+
 //            ###### [爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/) ★
     public int climbStairs(int n) {
         //思路：用动态规划思想，要爬到n阶，可以通过最后爬一步和两步2中爬法到，到n阶的方法等于到n-1阶方法加上n-2阶方法，即f(n)=f(n-1)+f(n-2)，这个f(n)方法就用递归实现
@@ -94,9 +114,9 @@ public class Dongtai {
         int[] dp = new int[nums.length]; //这个dp[i] 表示以 nums[i] 为结尾的最长递增子序列长度
         //遍历i时，需要从头到尾遍历0~i，找出最大的子序列长度
         dp[0] = 1;
-        int maxLeng = dp[0];
+        int maxLeng = dp[0];  //注意： 这里maxLen初始为1，而不是0
         for (int i=1;i<nums.length;i++) {
-            //这里需要初始dp[i]=1，最小长度有一个
+            //注意： 这里需要初始dp[i]=1，最小长度有一个
             dp[i] = 1;
             for (int j=0;j<i;j++) {
                 if (nums[i] > nums[j]) {

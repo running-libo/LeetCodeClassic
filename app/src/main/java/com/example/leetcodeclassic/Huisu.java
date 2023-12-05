@@ -74,7 +74,7 @@ public class Huisu {
 
             for (int i=start;i<nums.length;i++) {
                 path.add(nums[i]);
-                //在子集里，只要path组合新增了，就是一个新的子集，就需要添加到result里面去
+                //注意： 在子集里，只要path组合新增了，就是一个新的子集，就需要添加到result里面去
                 result.add(new ArrayList<>(path));
                 dfs(nums, i+1); //往下层走，i需要+1，因为不能元素不能重复
                 path.remove(path.size()-1); //回溯回到上层分支
