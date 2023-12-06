@@ -129,6 +129,33 @@ public class Dongtai {
         return maxLeng;
     }
 
+//    ###### [不同路径](https://leetcode.cn/problems/unique-paths/)
+
+    /**
+     * 思路：动态规划
+     * dp[i][j] 的含义是 从dp[0][0]到dp[i][j]位置有多少种不同的值
+     * 某个位置dp[i][j] 只能从dp[i][j-1]何dp[i-1][j]两个位置可以走到，所以 dp[i][j] = dp[i][j-1] + dp[i-1][j]
+     * 而第一行和第一排需要初始化，他们都只有一种走法
+     * @param m
+     * @param n
+     */
+    public int uniquePaths(int m, int n) {
+        int[][] dp = new int[m][n];
+        for (int i=0;i<m;i++) {
+            dp[i][0] = 1;
+        }
+        for (int j=0;j<n;j++) {
+            dp[0][j] = 1;
+        }
+
+        for (int i=1;i<m;i++) {
+            for (int j=1;j<n;j++) {
+                dp[i][j] = dp[i-1][j] + dp[i][j-1];  //给二维数组每个数进行赋值，代表当前格有多少种不同走法
+            }
+        }
+        return dp[m-1][n-1];  //取出最右下角格子的位置
+    }
+
     public static void main(String[] args) {
 
     }

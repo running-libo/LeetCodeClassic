@@ -184,6 +184,34 @@ public class Strings {
         return String.join(" ", list); //String.join在集合每个元素之间添加分割符号
     }
 
+//    ###### [字符串转换整数 (atoi)](https://leetcode.cn/problems/string-to-integer-atoi/)
+    public int myAtoi(String str) {
+        str = str.trim();  //先去掉前后空格
+        if (str.length() == 0) return 0;
+
+        if (!Character.isDigit(str.charAt(0)) && str.charAt(0) != '-' && str.charAt(0) != '+') {
+            //如果第一个字符 不是数字、不是 +-符号，则数值为0
+            return 0;
+        }
+
+        long ans = 0;
+        boolean neg = str.charAt(0) == '-';  //是否是-号开头的
+        int i = !Character.isDigit(str.charAt(0)) ? 1 : 0;  //判断第一个字符是否是数字
+        //定义取字符的下标，不是数字从下标1开始取，是数字从下标0开始取
+        while(i < str.length() && Character.isDigit(str.charAt(i))) {
+            ans = ans * 10 + (str.charAt(i++) - '0');  //取出 第i个字符的数值，拼接数值
+            if (!neg && ans > Integer.MAX_VALUE) {
+                ans = Integer.MAX_VALUE;
+                break;  //是整数且越界了
+            }
+            if (neg && ans > 1L + Integer.MAX_VALUE) {
+                ans = 1L + Integer.MAX_VALUE;
+                break;  //是负数且越界了
+            }
+        }
+        return neg ? (int) -ans : (int)ans;
+    }
+
     public static void main(java.lang.String[] args) {
 
     }

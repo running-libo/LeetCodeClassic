@@ -195,6 +195,50 @@ public class Array {
          return total;
      }
 
+//     ###### [前 K 个高频元素](https://leetcode.cn/problems/top-k-frequent-elements/)
+
+    /**
+     * 思路：
+     * 统计每个数出现的次数
+     * 然后得到次数最大值
+     * 从次数最大值依次递减，用containsValue先判断，然后遍历map元素中的次数是否匹配，添加到新的数组中
+     * @param nums
+     * @param k
+     */
+    public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap();
+        int[] res = new int[k];
+        for (int i=0;i<nums.length;i++) {
+            if (map.containsKey(nums[i])) {
+                map.put(nums[i], map.get(nums[i])+1);
+            } else {
+                map.put(nums[i], 1);
+            }
+        }
+
+        int maxTimes = 0;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (entry.getValue() > maxTimes) {
+                maxTimes = entry.getValue();
+            }
+        }
+
+        for (int i=0;i<k;i++) { //放入数组0到k-1的位置
+            if (map.containsValue(maxTimes)) {
+                //有出现maxTimes次数的元素
+                for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+                    if (entry.getValue() == maxTimes) {
+                        res[k-1] = entry.getKey();
+                        k--;
+                    }
+                }
+            }
+            maxTimes--;
+        }
+
+        return res;
+    }
+
     public static void main(java.lang.String[] args) {
 
     }

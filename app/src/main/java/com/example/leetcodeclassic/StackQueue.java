@@ -53,41 +53,38 @@ public class StackQueue {
 
 //            ###### [用队列实现栈](https://leetcode.cn/problems/implement-stack-using-queues/)
     /**
-     * 用两个队列实现栈
-     * 这里需要实现一个队列元素的倒序，每次从queue2入列，从queue1中取出
+     * 用一个队列实现栈
+     * 入栈操作时，首先获得入栈前的元素个数 nnn，然后将元素入队到队列，
+     * 再将队列中的前 nnn 个元素（即除了新入栈的元素之外的全部元素）依次出队并入队到队列，此时队列的前端的元素即为新入栈的元素
      */
     class MyStack {
-        Queue<Integer> queue1;
-        Queue<Integer> queue2;
+        Queue<Integer> queue;
 
         public MyStack() {
-            queue1 = new LinkedList();  //入队列
-            queue2 = new LinkedList();  //出队列
+            queue = new LinkedList<>();
         }
 
         public void push(int x) {
-            queue2.offer(x);
-            while(!queue1.isEmpty()) { //将queue1中的元素移入queue2中，实现现有元素的倒序
-                queue2.offer(queue1.poll());
+            int n = queue.size();
+            queue.offer(x);
+            for (int i=0;i<n;i++) { //将x入队之后，将x之前的元素重新放入x之后，确保x在最前面
+                queue.offer(queue.poll());
             }
-            //交换数据，所以每次添加完数据都在queue1队列中
-            Queue<Integer> temp = queue1;
-            queue1 = queue2;
-            queue2 = temp;
         }
 
         public int pop() {
-            return queue1.poll();
+            return queue.poll();
         }
 
         public int top() {
-            return queue1.peek();
+            return queue.peek();
         }
 
         public boolean empty() {
-            return queue1.isEmpty();
+            return queue.isEmpty();
         }
     }
+
 
 //            ###### [有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
 
