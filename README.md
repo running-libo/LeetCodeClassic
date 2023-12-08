@@ -12,6 +12,8 @@ LeetCode面试最高频考算法题
 ###### [最长连续递增序列](https://leetcode-cn.com/problems/longest-continuous-increasing-subsequence/)
 ###### [合并排序的数组](https://leetcode.cn/problems/sorted-merge-lcci/)
 ###### [数组中的第K个最大元素](https://leetcode.cn/problems/kth-largest-element-in-an-array/)
+###### [前 K 个高频元素](https://leetcode.cn/problems/top-k-frequent-elements/)
+
 
 - ####字符串
 ###### [反转字符串](https://leetcode-cn.com/problems/reverse-string/)
@@ -21,6 +23,8 @@ LeetCode面试最高频考算法题
 ###### [罗马数字转整数](https://leetcode.cn/problems/roman-to-integer/)
 ###### [无重复字符的最长子串](https://leetcode.cn/problems/longest-substring-without-repeating-characters/)
 ###### [最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring/)
+###### [字符串转换整数 (atoi)](https://leetcode.cn/problems/string-to-integer-atoi/)
+
 
 - ####链表
 ###### [反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
@@ -58,7 +62,6 @@ LeetCode面试最高频考算法题
 
 - ####双指针
 ###### [验证回文串](https://leetcode-cn.com/problems/valid-palindrome/) 
-###### [删除有序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/) 
 ###### [在排序数组中查找元素的第一个和最后一个位置](https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/)
 ###### [三数之和](https://leetcode.cn/problems/3sum/)
 ###### [颜色分类](https://leetcode.cn/problems/sort-colors/)
@@ -80,6 +83,8 @@ LeetCode面试最高频考算法题
 ###### [最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/)
 ###### [零钱兑换](https://leetcode.cn/problems/coin-change/)
 ###### [打家劫舍](https://leetcode.cn/problems/house-robber/)
+###### [不同路径](https://leetcode.cn/problems/unique-paths/)
+
 
 
 - ####贪心算法
@@ -93,10 +98,6 @@ LeetCode面试最高频考算法题
 ###### [组合总和](https://leetcode.cn/problems/combination-sum/)
 ###### [括号生成](https://leetcode.cn/problems/generate-parentheses/)
 
-
-#####分类参考：
-https://blog.csdn.net/qq_38253797/article/details/123978130
-https://space.bilibili.com/525438321/channel/collectiondetail?sid=180037
 
 #####代码存放Github地址：
 https://github.com/running-libo/LeetCodeClassic
