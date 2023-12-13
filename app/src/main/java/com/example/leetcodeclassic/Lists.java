@@ -177,7 +177,7 @@ public class Lists {
      * 3.将left的next指向next.next
      */
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        ListNode dummy = new ListNode(0);
+        ListNode dummy = new ListNode(0);  //创造一个虚拟节点
         dummy.next = head;
         ListNode left = dummy;  //left需要占删除位置的前一个位置
         ListNode right = head;
@@ -257,10 +257,10 @@ public class Lists {
             if (l2 != null) {
                 l2 = l2.next;
             }
+        }
 
-            if (carry > 0) {
-                tail.next = new ListNode(carry);
-            }
+        if (carry > 0) {
+            tail.next = new ListNode(carry);
         }
         return head;
     }
