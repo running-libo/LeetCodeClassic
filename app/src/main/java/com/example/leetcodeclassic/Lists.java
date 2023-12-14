@@ -109,14 +109,10 @@ public class Lists {
         //得到相交点，构成这幅图的形式
 
         ListNode slow = head, fast = head;
-        while(fast != null) {
+        while(fast != null && fast.next != null) {
             //让慢指针每次走1步，快指针每次走2步
+            fast = fast.next.next;
             slow = slow.next;
-            if (fast.next != null) {
-                fast = fast.next.next;
-            } else {
-                return null;
-            }
             if (slow == fast) {
                 //再构造两个慢指针走到入环节点
                 ListNode cur = head;

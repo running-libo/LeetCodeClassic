@@ -7,9 +7,12 @@ import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 
 public class Practise {
     private class ListNode {
@@ -403,5 +406,485 @@ public class Practise {
             path.remove(path.size()-1);
         }
     }
+
+    public List<List<Integer>> subsets(int[] nums) {
+        result.add(new ArrayList<>());
+        dfs(nums, 0);
+        return result;
+    }
+
+    public void dfs(int[] nums, int start) {
+        if (path.size() == nums.length) {
+            return;
+        }
+        for (int i=start;i<nums.length;i++) {
+            path.add(nums[i]);
+            result.add(new ArrayList<>(path));
+            dfs(nums, i+1);
+            path.remove(path.size()-1);
+        }
+    }
+
+    public List<List<Integer>> permute(int[] nums) {
+        dfs(nums);
+        return result;
+    }
+
+    public void dfs(int[] nums) {
+        if (path.size() == nums.length) {
+            result.add(new ArrayList<>(path));
+            return;
+        }
+        for (int i=0;i<nums.length;i++) {
+            if (path.contains(nums[i])) {
+                continue;
+            }
+            path.add(nums[i]);
+            dfs(nums);
+            path.remove(path.size()-1);
+        }
+    }
+
+    List<String> list = new ArrayList<>();
+
+    public List<String> generateParenthesis(int n) {
+        dfs(new StringBuilder(), n, 0, 0);
+        return list;
+    }
+
+    public void dfs(StringBuilder stringBuilder, int n, int left, int right) {
+        if (left+right == n*2) {
+            list.add(stringBuilder.toString());
+            return;
+        }
+
+        if (left < n) {
+            stringBuilder.append('(');
+            dfs(stringBuilder, n, left+1, right);
+            stringBuilder.deleteCharAt(stringBuilder.length()-1);
+        }
+        if (right < left) {
+            stringBuilder.append(')');
+            dfs(stringBuilder, n, left, right+1);
+            stringBuilder.deleteCharAt(stringBuilder.length()-1);
+        }
+    }
+
+    public List<Integer> preorderTraversal(TreeNode root) {
+        preOrder(root);
+        return path;
+    }
+
+    private void preOrder(TreeNode root) {
+        if (root != null) {
+            path.add(root.val);
+
+            if (root.left != null) {
+                preOrder(root.left);
+            }
+            if (root.right != null) {
+                preOrder(root.right);
+            }
+        }
+    }
+
+    public ListNode reverseList(ListNode head) {
+        ListNode cur = head;
+        ListNode pre = null;
+        while(cur != null) {
+            ListNode temp = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = temp;
+        }
+        return pre;
+    }
+
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        ListNode cur = head;
+        ListNode pre = null;
+        for (int i=0;i<left-1;i++) {
+            pre = cur;
+            cur = cur.next;
+        }
+        ListNode pre2 = pre;
+        ListNode cur2 = cur;
+        for (int i=left;i<=right;i++) {
+            ListNode temp = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = temp;
+        }
+        if (pre2 != null) {
+            pre2.next = pre;
+        } else {
+            head = pre;
+        }
+
+        cur2.next = cur;
+        return head;
+    }
+
+    public boolean hasCycle(ListNode head) {
+        ListNode fast = head;
+        ListNode slow = head;
+        while(fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+
+            if (slow == fast) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ListNode detectCycle(ListNode head) {
+        ListNode fast = head;
+        ListNode slow = head;
+        while(fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+
+            if (slow == fast) {
+                ListNode cur = head;
+                while(cur != slow) {
+                    cur = cur.next;
+                    slow = slow.next;
+                }
+
+                return cur;
+            }
+        }
+        return null;
+    }
+
+    public boolean isPalindrome(ListNode head) {
+        List<Integer> list = new ArrayList<>();
+        ListNode cur = head;
+        while(cur != null) {
+            list.add(cur.val);
+            cur = cur.next;
+        }
+
+        int start=0, end = list.size()-1;
+        while(start<end) {
+            if (list.get(start) != list.get(end)) {
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;
+    }
+
+    public int getDecimalValue(ListNode head) {
+        Stack<Integer> stack = new Stack<>();
+        ListNode cur = head;
+        while(cur != null) {
+            stack.add(cur.val);
+            cur = cur.next;
+        }
+
+        int pos = 0;
+        int sum = 0;
+        while(!stack.isEmpty()) {
+            sum = sum + (stack.pop() << pos);
+            pos++;
+        }
+        return sum;
+    }
+
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode head = new ListNode(-1);
+        ListNode cur = head;
+        while(l1 != null && l2 != null) {
+            if (l1.val < l2.val) {
+                cur.next = l1;
+                l1 = l1.next;
+            } else {
+                cur.next = l2;
+                l2 = l2.next;
+            }
+            cur = cur.next;
+        }
+
+        cur.next = l1 == null ? l2 : l1;
+        return head.next;
+    }
+
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode pre = dummy;
+        ListNode cur = head;
+        for (int i=0;i<n;i++) {
+            cur = cur.next;
+        }
+        while(cur != null) {
+            pre = pre.next;
+            cur = cur.next;
+        }
+        pre.next = pre.next.next;
+        return dummy.next;
+    }
+
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode curA = headA;
+        ListNode curB = headB;
+        while(curA != curB) {
+            if (curA != null) {
+                curA = curA.next;
+            } else {
+                curA = headB;
+            }
+            if (curB != null) {
+                curB = curB.next;
+            } else {
+                curB = headA;
+            }
+        }
+        return curA;
+    }
+
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        int carry = 0;
+        ListNode head = null;
+        ListNode tail = null;
+        while(l1 != null || l2 != null) {
+            int n1 = l1==null ? 0 : l1.val;
+            int n2 = l2==null ? 0 : l2.val;
+
+            int sum = n1 + n2 + carry;
+
+            if (head == null) {
+                head = tail = new ListNode(sum%10);
+            } else {
+                tail.next = new ListNode(sum%10);
+                tail = tail.next;
+            }
+
+            if (l1 != null) {
+                l1 = l1.next;
+            }
+            if (l2 != null) {
+                l2 = l2.next;
+            }
+
+            carry = sum/10;
+        }
+
+        if (carry != 0) {
+            tail.next = new ListNode(carry);
+        }
+        return head;
+    }
+
+    public ListNode swapPairs(ListNode head) {
+        ListNode dummy = new ListNode(-1);
+        ListNode cur = dummy;
+        dummy.next = head;
+
+        while(cur.next != null && cur.next.next != null) {
+            ListNode temp1 = cur.next;
+            ListNode temp2 = cur.next.next.next;
+            cur.next = cur.next.next;
+            cur.next.next = temp1;
+            temp1.next = temp2;
+
+            cur = cur.next.next;
+        }
+
+        return dummy.next;
+    }
+
+    public ListNode rotateRight(ListNode head, int k) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode cur = head;
+        int lenth = 0;
+        while(cur.next != null) {
+            cur = cur.next;
+            lenth++;
+        }
+        lenth += 1;
+        cur.next = head;
+        int move = lenth - k%lenth;
+        for (int i=0;i<move;i++) {
+            cur = cur.next;
+        }
+        ListNode newHead = cur.next;
+        cur.next = null;
+        return newHead;
+    }
+
+    class CQueue {
+        Stack<Integer> stack1;
+        Stack<Integer> stack2;
+
+        public CQueue() {
+            stack1 = new Stack();
+            stack2 = new Stack();
+        }
+
+        public void appendTail(int value) {
+            stack1.add(value);
+        }
+
+        public int deleteHead() {
+            if (!stack2.isEmpty()) {
+                return stack2.pop();
+            } else {
+                while(!stack1.isEmpty()) {
+                    stack2.add(stack1.pop());
+                }
+                return stack2.isEmpty() ? -1 : stack2.pop();
+            }
+        }
+    }
+
+    class MyStack {
+        Queue<Integer> queue;
+        public MyStack() {
+            queue = new LinkedList<>();
+        }
+
+        public void push(int x) {
+            int size = queue.size();
+            queue.offer(x);
+            for (int i=0;i<size;i++) {
+                queue.add(queue.poll());
+            }
+        }
+
+        public int pop() {
+            return empty() ? 0 : queue.poll();
+        }
+
+        public int top() {
+            return queue.peek();
+        }
+
+        public boolean empty() {
+            return queue.isEmpty();
+        }
+    }
+
+    public boolean isValid(String s) {
+        Map<Character, Character> map = new HashMap<>();
+        Stack<Character> stack = new Stack<>();
+        map.put('(',')');
+        map.put('[',']');
+        map.put('{','}');
+        for (int i=0;i<s.length();i++) {
+            Character ch = s.charAt(i);
+            if (map.containsKey(ch)) {
+                stack.add(ch);
+            } else {
+                if (!stack.isEmpty() && map.get(stack.pop()) == ch) {
+                    continue;
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        return stack.isEmpty();
+    }
+
+    public boolean isPalindrome(String s) {
+        int start = 0,end = s.length()-1;
+        while(start<end) {
+            while(start < end && !Character.isLetterOrDigit(s.charAt(start))) {
+                start++;
+            }
+            while(start < end && !Character.isLetterOrDigit(s.charAt(end))) {
+                end--;
+            }
+            if (Character.toLowerCase(s.charAt(start)) == Character.toLowerCase(s.charAt(end))) {
+                start++;
+                end--;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int[] searchRange(int[] nums, int target) {
+        int start = -1, end = -1;
+        int lenth = nums.length;
+        for (int i=0;i<lenth;i++) {
+            if (nums[i] == target) {
+                start = i;
+                break;
+            }
+        }
+        for (int i=nums.length-1;i>=0;i--) {
+            if (nums[i] == target) {
+                end = i;
+                break;
+            }
+        }
+        return new int[]{start, end};
+    }
+
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        int left = 0, right = 0;
+        for (int i=0;i<nums.length;i++) {
+            if (i>0 && nums[i] == nums[i-1]) {
+                continue;
+            }
+
+            left = i+1;
+            right = nums.length-1;
+            while(left<right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                if (sum == 0) {
+                    res.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                    while(left<right && nums[left+1] == nums[left]) {
+                        left++;
+                    }
+                    while(left<right && nums[right-1] == nums[right]) {
+                        right--;
+                    }
+                    left++;
+                    right--;
+                } else if (sum > 0) {
+                    right--;
+                } else {
+                    left++;
+                }
+            }
+        }
+        return res;
+    }
+
+    public void sortColors(int[] nums) {
+        int start = 0, end = nums.length-1;
+        for (int i=0;i<nums.length;i++) {
+            if (nums[i] == 0) {
+                swap(nums, i, start);
+                start++;
+            }
+        }
+        for (int i=nums.length-1;i>=start;i--) {
+            if (nums[i] == 2) {
+                swap(nums, i, end);
+                end--;
+            }
+        }
+    }
+
+    public void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
+
 
 }
