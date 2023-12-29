@@ -44,6 +44,15 @@ public class Strings {
         return -1;
     }
 
+    //解法二：
+    public int strStr2(String haystack, String needle) {
+        if (!haystack.contains(needle)) {
+            return -1;
+        } else {
+            return haystack.indexOf(needle);
+        }
+    }
+
 //    ##### [罗马数字转整数](https://leetcode.cn/problems/roman-to-integer/)
 
     /**

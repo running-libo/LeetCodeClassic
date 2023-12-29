@@ -223,9 +223,8 @@ public class Array {
             }
         }
 
-        for (int i=0;i<k;i++) { //放入数组0到k-1的位置
+        while(k>0) {
             if (map.containsValue(maxTimes)) {
-                //有出现maxTimes次数的元素
                 for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
                     if (entry.getValue() == maxTimes) {
                         res[k-1] = entry.getKey();
@@ -235,7 +234,6 @@ public class Array {
             }
             maxTimes--;
         }
-
         return res;
     }
 
